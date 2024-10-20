@@ -1,0 +1,25 @@
+local HttpService = game:GetService("HttpService")
+
+-- Function to send a message to the webhook
+local function sendWebhook(message)
+    local data = {
+        ["content"] = message,
+        ["username"] = "M Scripts", -- Optional bot name
+        ["avatar_url"] = "https://some-link-to-image.png", -- Optional avatar
+    }
+
+    local jsonData = HttpService:JSONEncode(data)
+    local success, err = pcall(function()
+        HttpService:PostAsync("https://discord.com/api/webhooks/WEBHOOK_ID/WEBHOOK_TOKEN", jsonData, Enum.HttpContentType.ApplicationJson)
+    end)
+
+    if success then
+        print("Webhook sent successfully!")
+    else
+        warn("Failed to send webhook: " .. err)
+    end
+end
+
+return {
+    sendWebhook = sendWebhook
+}
