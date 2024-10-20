@@ -10,7 +10,7 @@ local function sendWebhook(message)
 
     local jsonData = HttpService:JSONEncode(data)
     local success, err = pcall(function()
-        HttpService:PostAsync("https://discord.com/api/webhooks/WEBHOOK_ID/WEBHOOK_TOKEN", jsonData, Enum.HttpContentType.ApplicationJson)
+        HttpService:PostAsync("https://discord.com/api/webhooks/1297062490512822344/6GlaVOQHA3FZYcIeoHxZeQ9QCS3ti-aTE706a8eVxikL-LR_Fui7iMCVsCTYrTw1Bdkl", jsonData, Enum.HttpContentType.ApplicationJson)
     end)
 
     if success then
