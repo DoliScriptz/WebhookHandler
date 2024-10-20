@@ -1,25 +1,56 @@
-local HttpService = game:GetService("HttpService")
+local DYWebhooks = {}
 
--- Function to send a message to the webhook
-local function sendWebhook(message)
-    local data = {
-        ["content"] = message,
-        ["username"] = "M Scripts", -- Optional bot name
-        ["avatar_url"] = "https://some-link-to-image.png", -- Optional avatar
+function DYWebhooks.BuildEmbed()
+    return {
+        title = "M Scripts",
+        description = "",
+        color = 0x00FF00,
+        fields = {},
+        footer = {text = "Made By Xynnn"},
+        timestamp = os.date("!%Y-%m-%dT%TZ")  -- Include a timestamp
     }
-
-    local jsonData = HttpService:JSONEncode(data)
-    local success, err = pcall(function()
-        HttpService:PostAsync("https://discord.com/api/webhooks/1297062490512822344/6GlaVOQHA3FZYcIeoHxZeQ9QCS3ti-aTE706a8eVxikL-LR_Fui7iMCVsCTYrTw1Bdkl", jsonData, Enum.HttpContentType.ApplicationJson)
-    end)
-
-    if success then
-        print("Webhook sent successfully!")
-    else
-        warn("Failed to send webhook: " .. err)
-    end
 end
 
-return {
-    sendWebhook = sendWebhook
-}
+-- Function to set the title of the embed
+function DYWebhooks.SetTitle(embed, title)
+    embed.title = title
+end
+
+-- Function to set the description of the embed
+function DYWebhooks.SetDescription(embed, description)
+    embed.description = description
+end
+
+-- Function to set the color of the embed
+function DYWebhooks.SetColor(embed, color)
+    embed.color = color
+end
+
+-- Function to add fields to the embed
+function DYWebhooks.AddField(embed, name, value)
+    table.insert(embed.fields, {name = name, value = value, inline = false})
+end
+
+-- Function to set the footer of the embed
+function DYWebhooks.SetFooter(embed, text)
+    embed.footer.text = text
+end
+
+-- Function to send the webhook
+function DYWebhooks.Send(embed)
+    local data = {
+        embeds = {embed},
+        username = "Mscripts"  -- Change this to your desired webhook name
+    }
+
+    local jsonData = game:GetService("HttpService"):JSONEncode(data)
+
+    local headers = {
+        ["Content-Type"] = "application/json"
+    }
+
+    -- Send request to webhook
+    game:GetService("HttpService"):PostAsync(Config.Webhook, jsonData, Enum.HttpContentType.ApplicationJson, false, headers)
+end
+
+return DYWebhooks
